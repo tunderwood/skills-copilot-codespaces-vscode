@@ -1,31 +1,16 @@
-// Create a web server
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var fs = require('fs');
-var path = require('path');
-var commentsPath = path.join(__dirname, 'comments.json');
-var _ = require('lodash');
+//Create a web server that's going to send a response of big image or small image when client sends a request of big.jpg or small.jpg.
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.json());
+const http = require('http');
+const fs = require('fs');
 
-app.get('/comments', function(req, res) {
-    fs.readFile(commentsPath, 'utf8', function(err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        res.json(JSON.parse(data));
-    });
-});
-
-app.post('/comments', function(req, res) {
-    fs.readFile(commentsPath, 'utf8', function(err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        var comments = JSON.parse(data);
-        var newComment = {
-            id: Date.now(),
+http.createServer((request, response) => {
+    if (request.url === '/big.jpg') {
+        fs.readFile('big.jpg', (err, data) => {
+            response.end(data);
+        });
+    } else if (request.url === '/small.jpg') {
+        fs.readFile('small.jpg', (err, data) => {
+            response.end(data);
+        });
+    }
+}).listen(3000);
