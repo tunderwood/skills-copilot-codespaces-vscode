@@ -1,4 +1,4 @@
-//Create a web server that's going to send a response of big image or small image when client sends a request of big.jpg or small.jpg.
+// Create web server
 
 const http = require('http');
 const fs = require('fs');
